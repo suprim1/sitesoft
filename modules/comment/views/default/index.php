@@ -39,19 +39,20 @@ $this->title = 'Сообщения';
         </div>
 
         <?php ActiveForm::end(); ?>
-    <?php endif ?>
-    <?php foreach ($comments as $comment): ?>
-        <div class="well col-lg-12 col-md-12 col-sm-12 col-xs-12 data-id" data-id="<?= $comment['id'] ?>">
-            <span><?= $comment['date'] ?></span><br>
-            <b><?= $comment['login'] ?></b><br>
-            <div class="coment-text js-edit">
-                <?= $comment['comments'] ?>
+
+        <?php foreach ($comments as $comment): ?>
+            <div class="well col-lg-12 col-md-12 col-sm-12 col-xs-12 data-id" data-id="<?= $comment['id'] ?>">
+                <span><?= $comment['date'] ?></span><br>
+                <b><?= $comment['login'] ?></b><br>
+                <div class="coment-text js-edit">
+                    <?= $comment['comments'] ?>
+                </div>
+                <?php if ($comment['login'] === Yii::$app->user->identity->login): ?>
+                    <span class="typo-link js-delete-comment">Удалить</span> / <span class="typo-link js-edit-comment"> Редактировать </span>
+                <?php endif ?>
             </div>
-            <?php if ($comment['login'] === Yii::$app->user->identity->login): ?>
-                <span class="typo-link js-delete-comment">Удалить</span> / <span class="typo-link js-edit-comment"> Редактировать </span>
-            <?php endif ?>
-        </div>
-    <?php endforeach ?>
-
-
+        <?php endforeach ?>
+    <?php else: ?>
+    Авторизуйтесь!!!
+    <?php endif ?>
 </div>

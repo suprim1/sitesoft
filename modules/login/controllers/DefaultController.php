@@ -31,7 +31,7 @@ class DefaultController extends Controller {
     public function actionRegistr() {
         if (Yii::$app->request->isAjax && Yii::$app->user->isGuest) {
             $model = new RegistrForm();
-           return $this->renderAjax('registr', compact('model'));
+            return $this->renderAjax('registr', compact('model'));
         }
     }
 
@@ -49,20 +49,22 @@ class DefaultController extends Controller {
 
     public function actionRegval() {
 
-            $model = new RegistrForm();
-            if (Yii::$app->request->isAjax && Yii::$app->user->isGuest && $model->load(yii::$app->request->post())) {
-                Yii::$app->response->format = 'json';
-                return \yii\widgets\ActiveForm::validate($model);
-            }
-            if ($model->load(yii::$app->request->post()) && $model->validate()) {
-                $users = new Users;
-                $users->login = $model->login;
-                $users->pass = Yii::$app->getSecurity()->generatePasswordHash($model->password);
-                $users->save(false);
+        $model = new RegistrForm();
+        if (Yii::$app->request->isAjax && Yii::$app->user->isGuest && $model->load(yii::$app->request->post())) {
+            Yii::$app->response->format = 'json';
+            return \yii\widgets\ActiveForm::validate($model);
+        }
+        if ($model->load(yii::$app->request->post()) && $model->validate()) {
+            $users = new Users;
+            $users->login = $model->login;
+            $users->pass = Yii::$app->getSecurity()->generatePasswordHash($model->password);
+            if ($users->save(false)) {
                 Yii::$app->user->login($model->getUser());
+                $userRole = Yii::$app->authManager->getRole('author');
+                Yii::$app->authManager->assign($userRole, Yii::$app->user->getId());
                 return $this->goHome();
             }
-
+        }
     }
 
 }
