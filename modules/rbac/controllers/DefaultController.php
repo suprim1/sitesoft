@@ -56,6 +56,8 @@ class DefaultController extends Controller
         $auth->addChild($role, $create);
         $auth->addChild($role, $edit);
         $auth->addChild($role, $delete);
+        $admin = Yii::$app->authManager->getRole('admin');
+        $auth->addChild($admin, $role);
 
         var_dump(' Наследование выполнено!');
     }
