@@ -3,6 +3,8 @@
 namespace app\modules\comment\models;
 
 use yii\db\Query;
+use yii\helpers\Html;
+use yii\helpers\HtmlPurifier;
 
 class Comment extends \yii\db\ActiveRecord {
 
@@ -31,6 +33,7 @@ class Comment extends \yii\db\ActiveRecord {
         $query = new Query();
         return $query->select([
                             'c.id',
+                            'c.id_user',
                             'c.comments',
                             'u.login',
                             'date(c.date) as date'
@@ -48,6 +51,13 @@ class Comment extends \yii\db\ActiveRecord {
                         ->from('comment')
                         ->where(['id' => $id])
                         ->one();
+    }
+
+    public static function xss(string $param)
+    {
+        $param = Html::encode($param);
+        $param = HtmlPurifier::process($param);
+        return $param;
     }
 
 }

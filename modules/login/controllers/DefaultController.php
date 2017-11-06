@@ -7,6 +7,7 @@ use Yii;
 use app\modules\login\models\LoginForm;
 use app\modules\login\models\RegistrForm;
 use app\modules\login\models\Users;
+use app\modules\comment\models\Comment;
 
 class DefaultController extends Controller {
 
@@ -56,7 +57,7 @@ class DefaultController extends Controller {
         }
         if ($model->load(yii::$app->request->post()) && $model->validate()) {
             $users = new Users;
-            $users->login = $model->login;
+            $users->login = Comment::xss($model->login);
             $users->pass = Yii::$app->getSecurity()->generatePasswordHash($model->password);
             if ($users->save(false)) {
                 Yii::$app->user->login($model->getUser());
