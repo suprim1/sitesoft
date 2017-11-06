@@ -3,6 +3,7 @@
 namespace app\rbac;
 
 use yii\rbac\Rule;
+use Yii;
 
 class AuthorRule extends Rule
 {
@@ -10,6 +11,6 @@ class AuthorRule extends Rule
 
     public function execute($user_id, $item, $params)
     {
-        return isset($params['id']) ? $params['id'] == $user_id : false;
+        return isset($params['id']) ? ($params['id'] == $user_id || Yii::$app->user->can('admin')) : false;
     }
 }
