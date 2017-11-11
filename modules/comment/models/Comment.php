@@ -17,12 +17,6 @@ class Comment extends \yii\db\ActiveRecord {
         ];
     }
 
-    public function xxs($attribute, $params) {
-        var_dump($attribute);
-        var_dump($params);
-        die;
-    }
-
     public function attributeLabels() {
         return [
             'comments' => 'Ваше сообщение...',

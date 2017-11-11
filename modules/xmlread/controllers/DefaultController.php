@@ -1,11 +1,9 @@
 <?php
 
-namespace app\modules\brackets\controllers;
+namespace app\modules\xmlread\controllers;
 
 use yii\web\Controller;
 use yii\filters\AccessControl;
-use app\modules\brackets\models\Brackets;
-use Yii;
 
 class DefaultController extends Controller {
 
@@ -15,7 +13,7 @@ class DefaultController extends Controller {
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'check-brackets'],
+                        'actions' => ['index'],
                         'allow' => true,
                         'roles' => ['author'],
                     ],
@@ -26,15 +24,7 @@ class DefaultController extends Controller {
 
     public function actionIndex() {
 
-        $model = new Brackets;
-        return $this->render('index', compact('model'));
-    }
-
-    public function actionCheckBrackets() {
-        $model = new Brackets;
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            return Brackets::check($model->brackets);
-        }
+        return $this->render('index');
     }
 
 }

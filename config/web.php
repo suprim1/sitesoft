@@ -18,6 +18,12 @@ $config = [
         'rbac' => [
             'class' => 'app\modules\rbac\RbacModule',
         ],
+        'xmlread' => [
+            'class' => 'app\modules\xmlread\XmlreadModule',
+        ],
+        'brackets' => [
+            'class' => 'app\modules\brackets\BracketsModule',
+        ],
     ],
     'components' => [
         'request' => [
@@ -34,6 +40,8 @@ $config = [
         'user' => [
             'identityClass' => 'app\modules\login\models\Users',
             'enableAutoLogin' => true,
+            'loginUrl' => ['/login'],
+
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',

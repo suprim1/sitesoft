@@ -25,7 +25,7 @@ AppAsset::register($this);
         <div class="wrap">
             <?php
             NavBar::begin([
-                'brandLabel' => 'Сайтсофт',
+                'brandLabel' => 'Тест',
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
                     'class' => 'navbar-default navbar-fixed-top',
@@ -35,17 +35,12 @@ AppAsset::register($this);
                 'options' => ['class' => 'navbar-nav navbar-right'],
                 'items' => [
                     ['label' => 'Главная', 'url' => ['/']],
+                    ['label' => 'Справочник', 'url' => ['/xmlread']],
+                    ['label' => 'Скобки', 'url' => ['/brackets']],
                     Yii::$app->user->isGuest ? (
                             ['label' => 'Вход', 'url' => ['/login']]
-                            ) : (
-                            '<li>'
-                            . Html::beginForm(['/logout'], 'post')
-                            . Html::submitButton(
-                                    'Выход (' . Yii::$app->user->identity->login . ')', ['class' => 'btn btn-link logout']
-                            )
-                            . Html::endForm()
-                            . '</li>'
-                            )
+                            ) :
+                            ['label' => 'Выход (' . Yii::$app->user->identity->login . ')', 'url' => ['/logout']]
                 ],
             ]);
             NavBar::end();
@@ -58,7 +53,7 @@ AppAsset::register($this);
 
         <footer class="footer">
             <div class="container">
-                <p class="pull-left">&copy; Сайтсофт <?= date('Y') ?></p>
+                <p class="pull-left">&copy; Тест <?= date('Y') ?></p>
 
                 <p class="pull-right"><?= Yii::powered() ?></p>
             </div>
