@@ -15,9 +15,15 @@ class DefaultController extends Controller {
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'check-brackets'],
+                        'actions' => ['index'],
                         'allow' => true,
                         'roles' => ['author'],
+                    ],
+                    [
+                        'actions' => ['check-brackets'],
+                        'allow' => true,
+                        'roles' => ['author'],
+                        'verbs' => ['post'],
                     ],
                 ],
             ]

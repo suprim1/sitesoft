@@ -4,6 +4,7 @@ namespace app\modules\xmlread\controllers;
 
 use yii\web\Controller;
 use yii\filters\AccessControl;
+use app\modules\xmlread\models\Xmlread;
 
 class DefaultController extends Controller {
 
@@ -17,14 +18,34 @@ class DefaultController extends Controller {
                         'allow' => true,
                         'roles' => ['author'],
                     ],
+                    [
+                        'actions' => ['find-kod', 'search'],
+                        'allow' => true,
+                        'roles' => ['author'],
+                        'verbs' => ['get'],
+                    ],
                 ],
             ]
         ];
     }
 
     public function actionIndex() {
+        $okpd = Xmlread::All();
+        return $this->render('index', compact('okpd'));
+    }
 
-        return $this->render('index');
+    public function actionFindKod(string $kod) {
+        $okpd = Xmlread::findKod($kod);
+        return $okpd == null ? '' : $this->renderPartial('okpd', compact('okpd'));
+    }
+
+    public function actionSearch(string $search) {
+        if (empty($search)) {
+            $okpd = Xmlread::All();
+        } else {
+            $okpd = Xmlread::searchAll($search);
+        }
+        return $this->renderPartial('search', compact('okpd', 'search'));
     }
 
 }

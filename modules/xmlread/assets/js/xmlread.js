@@ -2,84 +2,54 @@ $(document).ready(function () {
     var csrfParam = $('meta[name="csrf-param"]').attr("content");
     var csrfToken = $('meta[name="csrf-token"]').attr("content");
 
-    $('.js-add-comment').click(function () {
-        $('.js-error-comment').hide();
-        data = $(this).parents('form').serialize();
-        $('.js-comment-text').val($.trim($('.js-comment-text').val()));
-        a = $('.js-comment-text').val();
-        if ($('.js-comment-text').val() == '') {
-            $('.js-error-comment').show();
-        } else {
-            $.ajax({
-                url: 'comment/default/add-comment',
-                type: 'POST',
-                data: data,
-                async: false,
-                dataType: "html",
-                success: function (data) {
-                    $('.js-comment-text').val('');
-                    $('#add-comment').after(data);
-                }
-            });
-        }
-    });
-    $(document).on('click','.js-delete-comment', function () {
+    $(document).on('click', '.js-okpd-open', function () {
+        $this = $(this);
+        kod = $this.data('kod');
+        $this.removeClass('js-okpd-open');
+        $this.parent().parent().parent().find('.panel-body').addClass('addKod');
 
         $.ajax({
-            url: 'comment/default/delete-comment',
-            type: 'POST',
-            data: {
-                csrfParam: csrfToken,
-                id: $(this).parents('.data-id').data('id')
-            },
+            url: 'xmlread/default/find-kod',
+            type: 'GET',
+            data: {csrfParam: csrfToken,
+                kod: kod},
             async: false,
             dataType: "html",
             success: function (data) {
-                $('.data-id').each(function(){
-                   if($(this).data('id') == data){
-                       $(this).remove();
-                   } 
+                $kod = $('.addKod');
+                $kod.append(data);
+                $kod.removeClass('addKod');
+            }
+        });
+    });
+
+    $(document).on('click', '.js-onclick-open', function () {
+        $this = $(this);
+        $this.parent().parent().parent().find('.collapse:first').collapse('toggle');
+    });
+
+    $('.js-search').keyup(function () {
+        var $this = $(this).val();
+        var search = $this.trim();
+        $.ajax({
+            url: 'xmlread/default/search',
+            type: 'GET',
+            data: {csrfParam: csrfToken,
+                search: search},
+            dataType: "html",
+            success: function (data) {
+                $('#accordion').remove();
+                $('.js-search-replace').prepend(data);
+                $('.js-onclick-open').each(function (index, el) {
+                    var serch = $('.js-search:first').val().trim();
+                    var re = new RegExp(serch, "gi");
+                    var text = $(this).text();
+                    var result = text.replace(re, '<span class="js-text_blue">' + serch + '</span>');
+                    $(this).html(result);
                 });
             }
         });
     });
-    $(document).on('click','.js-edit-comment', function () {
-        dataId = $(this).parents('.data-id');
-        id = dataId.data('id');
-        dataId.addClass('edit');
-        $.ajax({
-            url: 'comment/default/edit-comment',
-            type: 'POST',
-            data: {
-                csrfParam: csrfToken,
-                id: id
-            },
-            async: false,
-            dataType: "html",
-            success: function (data) {
-                $('.edit').replaceWith(data);               
-            }
-        });
-    });
-    $(document).on('click','.js-replace-comment', function () {
-        dataId = $(this).parents('.data-id');
-        id = dataId.data('id');
-        text = dataId.find('.coment-text').val();;
-        dataId.addClass('edit');
-        $.ajax({
-            url: 'comment/default/replace-comment',
-            type: 'POST',
-            data: {
-                csrfParam: csrfToken,
-                id: id,
-                comments: text
-            },
-            async: false,
-            dataType: "html",
-            success: function (data) {
-                $('.edit').replaceWith(data);               
-            }
-        });
-    });
-    
+
+
 });
