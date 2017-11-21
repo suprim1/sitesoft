@@ -41,7 +41,6 @@ $config = [
             'identityClass' => 'app\modules\login\models\Users',
             'enableAutoLogin' => true,
             'loginUrl' => ['/login'],
-
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -67,6 +66,24 @@ $config = [
                 'logout' => 'login/default/logout',
             ],
         ],
+        'sentry' => [
+            'class' => 'mito\sentry\Component',
+            'dsn' => 'https://7a42076f97a84ff78efeb2e06cf15c7b:f4349579e15041f7bb68b0c20bd22b1c@sentry.io/247983', // private DSN
+            'enabled' => YII_ENV_DEV ? false : true,
+        //'enabled' => true,
+        //'environment' => 'staging', // if not set, the default is `production`
+        ],
+        'log' => [
+            'targets' => [
+                [
+                    'class' => 'mito\sentry\Target',
+                    'levels' => ['error', 'warning'],
+                    'except' => [
+                        'yii\web\HttpException:404',
+                    ],
+                ],
+            ],
+        ],
     ],
     'params' => $params,
 ];
@@ -86,5 +103,4 @@ if (YII_ENV_DEV) {
         'allowedIPs' => ['127.0.0.1'],
     ];
 }
-
 return $config;
