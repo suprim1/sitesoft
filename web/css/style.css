@@ -4,3 +4,6 @@
 .typo-link:hover{
     cursor:pointer;
 }
+.footer__height{
+    height: 100px;
+}
