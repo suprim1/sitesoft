@@ -37,6 +37,7 @@ AppAsset::register($this);
                     ['label' => 'RBAC', 'url' => ['/']],
                     ['label' => 'Справочник', 'url' => ['/xmlread']],
                     ['label' => 'Скобки', 'url' => ['/brackets']],
+                    ['label' => 'Rest', 'url' => ['/rest']],
                     Yii::$app->user->isGuest ? (
                             ['label' => 'Вход', 'url' => ['/login']]
                             ) :

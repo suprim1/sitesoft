@@ -24,10 +24,15 @@ $config = [
         'brackets' => [
             'class' => 'app\modules\brackets\BracketsModule',
         ],
+        'api' => [
+            'class' => 'app\modules\api\CitiesModule',
+        ],
+        'rest' => [
+            'class' => 'app\modules\rest\RestModule',
+        ],
     ],
     'components' => [
         'request' => [
-            // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'sSDsddsdSD4_sdCVmKlLfser2#',
             'baseUrl' => '',
         ],
@@ -61,9 +66,17 @@ $config = [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            'enableStrictParsing' => false,
             'rules' => [
                 '/' => 'comment/default/index',
                 'logout' => 'login/default/logout',
+                'PUT cities/<id>' => 'api/cities/update',
+                'DELETE cities/<id>' => 'api/cities/delete',
+                'GET cities/<id>' => 'api/cities/view',
+                'POST cities' => 'api/cities/create',
+                'GET cities' => 'api/cities/index',
+                'GET country' => 'api/country/index',
+                'GET region' => 'api/region/index',
             ],
         ],
         'sentry' => [
