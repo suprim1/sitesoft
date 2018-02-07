@@ -86,6 +86,7 @@ $(document).ready(function () {
         $country = $this.find('.js-country-update-input').html($('.js-index:first').find('.js-country-select').clone()).prepend('Страна: ');
         $region = $this.find('.js-region-update-input').html($('.js-index:first').find('.js-region-select').clone()).prepend('Регион: ');
         $this.append("<br><button class='js-update-save'>Изменить</button>");
+        $this.find('.js-cities-update').remove();
         $('.js-update-save').click(function () {
             $.ajax({
                 url: 'cities/' + $this.data('id'),
